@@ -1,18 +1,22 @@
-import './globals.css'
+import "./globals.css";
 
-import { Web3Modal } from '../context/Web3Modal'
+import { Web3Modal } from "../context/Web3Modal";
+import { ReactNode } from "react";
+import { ReactQueryClientProvider } from "@/app/components/reactqueryclientprovider/ReactQueryClientProvider";
 
 export const metadata = {
-  title: 'Nft',
-  description: 'This is a NFT marketplace'
-}
+  title: "NFT Marketplace",
+  description: "This is a NFT marketplace",
+};
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children?: ReactNode }) {
   return (
-    <html lang="en">
-    <body>
-    <Web3Modal>{children}</Web3Modal>
-    </body>
-    </html>
-  )
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body>
+          <Web3Modal>{children}</Web3Modal>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
+  );
 }

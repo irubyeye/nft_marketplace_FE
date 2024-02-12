@@ -1,19 +1,18 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { Header } from "@/app/components/Header/Header";
+import { useRouter } from "next/navigation";
 
 function App() {
+  const router = useRouter();
+
   const account = useAccount();
-  const { connectors, connect, status, error } = useConnect();
-  const { disconnect } = useDisconnect();
 
   return (
-    <>
-      <w3m-account-button />
-      <w3m-connect-button />
-      <w3m-button />
-      <w3m-network-button />
-    </>
+    <div>
+      <Header />
+    </div>
   );
 }
 
