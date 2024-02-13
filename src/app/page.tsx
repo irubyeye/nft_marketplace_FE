@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { Header } from "@/app/components/Header/Header";
+import { Header } from "@/app/components/UI/Header";
 import { useRouter } from "next/navigation";
 
 function App() {

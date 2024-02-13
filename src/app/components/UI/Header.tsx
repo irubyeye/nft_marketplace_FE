@@ -9,7 +9,7 @@ export function Header(): React.JSX.Element {
     <div
       className={"bg-blue-800 min-h-24 grid grid-cols-12 place-items-center"}
     >
-      <Link className={"col-start-2 col-span-1"} href={"/"}>
+      <Link className={"col-start-2 col-span-1"} href={"/sellings"}>
         <Image src={logo} alt={"Logo"} className={"w-2/3 h-2/3"} />
       </Link>
 
