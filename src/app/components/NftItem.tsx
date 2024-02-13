@@ -1,4 +1,4 @@
-import { NftData } from "@/app/interfaces/interfaces";
+import { HandleClick, NftData } from "@/app/interfaces/interfaces";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,24 +12,21 @@ interface Metadata {
 export function NftItem({
   nftItem,
   write,
+  handleClick,
+  buttonText,
 }: {
   nftItem: NftData;
   write: Function;
+  handleClick: HandleClick;
+  buttonText: string;
 }): React.JSX.Element {
+  if (!nftItem) return <div>Loading...</div>;
+
   const [price, setPrice] = useState<bigint>(BigInt(0));
   const metadata: Metadata = JSON.parse(nftItem.metadata);
 
-  function handleClick(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ): void {
-    const params: string[] = (e.target as HTMLButtonElement).id.split(" ");
-    write({
-      args: [params[0], params[1], price],
-    });
-  }
-
   return (
-    <div className={"col-span-4 rounded-3xl"}>
+    <div className={"col-span-4"}>
       <div className={"bg-blue-800 w-72"}>
         <img className={"h-72"} src={metadata.image} alt="Nft picture" />
         <div className="text-center text-gray-300 p-3">
@@ -41,15 +38,18 @@ export function NftItem({
               id={`${nftItem.token_address} ${nftItem.token_id}`}
               className=" bg-blue-600 hover:bg-blue-700 w-5/12"
               variant={"contained"}
-              onClick={handleClick}
+              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                handleClick(e, price);
+              }}
             >
-              Sell
+              {buttonText}
             </Button>
             <TextField
               className="w-5/12"
               id="outlined-number"
               label=""
               type="number"
+              sx={{ input: { color: "whitesmoke" } }}
               onChange={(e): void => {
                 setPrice(parseEther(e.target.value, "wei"));
               }}

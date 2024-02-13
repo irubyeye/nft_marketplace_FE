@@ -5,13 +5,13 @@ import { Header } from "@/app/components/UI/Header";
 import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
-import testRes from "../../public/jsons/testRes.json";
 import { NftsList } from "@/app/components/NftsList";
+import { Address } from "viem";
 
 export default function Page(): React.JSX.Element {
   const account = useAccount();
 
-  const accountAddress: string = account.address || "";
+  const accountAddress: Address = account.address || ("" as Address);
 
   const { isPending, error, data } = useQuery({
     queryKey: [`getUserNfts`, accountAddress],

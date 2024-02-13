@@ -3,7 +3,8 @@ import React from "react";
 import { NftItem } from "@/app/components/NftItem";
 import { useContractWrite } from "wagmi";
 import { nftMarketplaceAddress } from "../../../helper";
-import MarketplaceAbi from "../../abi/MarketplaceAbi.json";
+import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
+import { Address } from "viem";
 
 export function NftsList({
   nftsList,
@@ -15,11 +16,27 @@ export function NftsList({
     abi: MarketplaceAbi,
     functionName: "createSellItem",
   });
+
+  function handleClick(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    price: bigint,
+  ): void {
+    const params: string[] = (e.target as HTMLButtonElement).id.split(" ");
+    write({
+      args: [params[0] as Address, BigInt(params[1]), price],
+    });
+  }
   return (
     <div className={"mt-5 grid grid-cols-12 gap-4 place-items-center"}>
-      {nftsList.map((el: NftData, i: number) => {
+      {nftsList.map((el: NftData) => {
         return (
-          <NftItem nftItem={el} write={write} key={el.token_hash + `${i}`} />
+          <NftItem
+            nftItem={el}
+            write={write}
+            key={el.token_hash}
+            buttonText={"Sell"}
+            handleClick={handleClick}
+          />
         );
       })}
     </div>

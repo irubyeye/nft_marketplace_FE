@@ -5,6 +5,7 @@ import { Header } from "@/app/components/UI/Header";
 import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
+import { SellingsList } from "@/app/components/SellingsList";
 
 export default function Page(): React.JSX.Element {
   const { isPending, error, data } = useQuery({
@@ -13,10 +14,10 @@ export default function Page(): React.JSX.Element {
       return NftsService.getSellings();
     },
   });
-  console.log(data);
   return (
     <div>
       <Header />
+      <SellingsList data={data?.data.sellItems || []} />
     </div>
   );
 }
