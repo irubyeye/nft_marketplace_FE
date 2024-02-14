@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import logo from "../../../public/logo/Ethereum.svg";
+import BasicModal from "@/app/components/UI/BasicModal";
 
 export function Header(): React.JSX.Element {
   return (
@@ -10,20 +11,21 @@ export function Header(): React.JSX.Element {
       className={"bg-blue-800 min-h-24 grid grid-cols-12 place-items-center"}
     >
       <Link className={"col-start-2 col-span-1"} href={"/sellings"}>
-        <Image src={logo} alt={"Logo"} className={"w-2/3 h-2/3"} />
+        <Image src={logo} alt={"Logo"} className={""} />
       </Link>
 
       <div
         className={
-          "grid grid-cols-subgrid gap-4 col-start-4 col-span-3 place-items-center"
+          "grid grid-cols-subgrid gap-4 col-start-3 col-span-6 place-items-center"
         }
       >
         <Link className=" text-gray-300 text-xl col-span-2" href="/mynfts">
           My NFTs
         </Link>
-        <Link className=" text-gray-300 text-xl" href="/dashboard">
+        <Link className=" text-gray-300 text-xl col-span-2" href="/dashboard">
           My Orders
         </Link>
+        <BasicModal />
       </div>
 
       <div className={"col-start-9 col-span-3"}>
