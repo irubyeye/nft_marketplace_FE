@@ -18,18 +18,13 @@ export default class NftsService {
     return await response.json();
   }
 
-  static async getNftMetadata(
-    contractAddress: Address,
-    tokenId: string,
-  ): Promise<NftData> {
-    const url: string = `https://deep-index.moralis.io/api/v2.2/nft/${contractAddress}/${tokenId}?chain=sepolia&format=decimal&normalizeMetadata=true&media_items=false`;
-
+  static async getNftMetadata(url: string): Promise<string> {
     const response: Response = await fetch(url, {
       method: "GET",
-      headers: { Accept: "application/json", "X-API-Key": nftKey },
+      headers: { Accept: "application/json" },
     });
 
-    return await response.json();
+    return JSON.stringify(await response.json());
   }
 
   static async getSellings(): Promise<SellItemsResponse> {
@@ -37,14 +32,17 @@ export default class NftsService {
       method: "POST",
       body: JSON.stringify({
         query:
-          "{ sellItems(where: {isForSale: true}) {\n" +
+          "{\n" +
+          "  sellItems(where: {isForSale: true}) {\n" +
           "    id\n" +
-          "    initPrice\n" +
-          "    isForSale\n" +
-          "    seller\n" +
-          "    tokenAddress\n" +
           "    tokenId\n" +
-          "  } }",
+          "    initPrice\n" +
+          "    seller\n" +
+          "    uri\n" +
+          "    isForSale\n" +
+          "    tokenAddress\n" +
+          "  }\n" +
+          "}",
       }),
       headers: {
         "Content-Type": "application/json",

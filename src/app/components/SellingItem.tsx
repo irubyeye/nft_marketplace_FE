@@ -8,16 +8,14 @@ import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
 import React from "react";
 
 export function SellingItem({ sellItem }: { sellItem: SellItem }) {
-  console.log(sellItem.tokenAddress, sellItem.tokenId);
   const { isPending, error, data } = useQuery({
     queryKey: [`getNftMetadata`],
     queryFn: () => {
-      return NftsService.getNftMetadata(
-        sellItem.tokenAddress,
-        sellItem.tokenId,
-      );
+      return NftsService.getNftMetadata(sellItem.uri);
     },
   });
+
+  console.log(data);
 
   const {
     data: dataCreatingBuyOrder,
@@ -39,13 +37,12 @@ export function SellingItem({ sellItem }: { sellItem: SellItem }) {
       args: [BigInt(sellItem.id), price],
     });
   }
-
-  console.log(data);
   return (
     <>
       <NftItem
-        nftItem={data as NftData}
-        write={write}
+        tokenId={sellItem.token_id}
+        tokenAddress={sellItem.token_address}
+        rawMetadada={data || ""}
         buttonText={"Buy"}
         handleClick={handleClick}
       />

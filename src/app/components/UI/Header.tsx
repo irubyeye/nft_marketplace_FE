@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import logo from "../../../public/logo/Ethereum.svg";
-import BasicModal from "@/app/components/UI/BasicModal";
+import { MyModal } from "@/app/components/UI/MyModal";
 
 export function Header(): React.JSX.Element {
   return (
     <div
-      className={"bg-blue-800 min-h-24 grid grid-cols-12 place-items-center"}
+      className={"bg-blue-800 min-h-32 grid grid-cols-12 place-items-center"}
     >
       <Link className={"col-start-2 col-span-1"} href={"/sellings"}>
         <Image src={logo} alt={"Logo"} className={""} />
@@ -19,13 +19,20 @@ export function Header(): React.JSX.Element {
           "grid grid-cols-subgrid gap-4 col-start-3 col-span-6 place-items-center"
         }
       >
-        <Link className=" text-gray-300 text-xl col-span-2" href="/mynfts">
+        <Link
+          className=" text-gray-300 text-xl col-span-2 font-light"
+          href="/mynfts"
+        >
           My NFTs
         </Link>
-        <Link className=" text-gray-300 text-xl col-span-2" href="/dashboard">
+        <Link
+          className=" text-gray-300 text-xl col-span-2 font-light"
+          href="/dashboard"
+        >
           My Orders
         </Link>
-        <BasicModal />
+        {/*<BasicModal />*/}
+        <MyModal />
       </div>
 
       <div className={"col-start-9 col-span-3"}>

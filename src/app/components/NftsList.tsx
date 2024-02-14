@@ -31,8 +31,9 @@ export function NftsList({
       {nftsList.map((el: NftData) => {
         return (
           <NftItem
-            nftItem={el}
-            write={write}
+            tokenAddress={el.token_address}
+            tokenId={el.token_id}
+            rawMetadada={el.metadata}
             key={el.token_hash}
             buttonText={"Sell"}
             handleClick={handleClick}

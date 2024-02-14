@@ -40,6 +40,12 @@ interface normalizedMetadata {
   attributes: any[];
 }
 
+export interface Metadata {
+  name: string;
+  description: string;
+  image: string;
+}
+
 export interface SellItemsResponse {
   data: { sellItems: SellItem[] };
 }
@@ -49,8 +55,9 @@ export interface SellItem {
   initPrice: string;
   isForSalle: boolean;
   seller: Address;
-  tokenAddress: Address;
-  tokenId: string;
+  token_address: Address;
+  uri: string;
+  token_id: string;
 }
 
 export interface HandleClick {
