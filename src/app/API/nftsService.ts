@@ -63,7 +63,7 @@ export default class NftsService {
       body: JSON.stringify({
         query: `{
   buyOrders(
-    where: {isClosed: false, isRejected: false, sellItem_: {seller: "${userAddress}"}}
+    where: {isClosed: false, isRejected: false, sellItem_: {seller: "${userAddress}", isForSale: true}}
   ) {
     id
     sellOrderId
