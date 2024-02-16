@@ -7,13 +7,12 @@ export function BuyOrdersList({
 }: {
   buyOrders: BuyOrderType[];
 }): React.JSX.Element {
-  console.log(buyOrders);
   return (
     <>
       <h1 className="text-2xl text-center mt-5">Your buy orders list</h1>
       <div className={"mt-5 grid grid-cols-12 gap-4 place-items-center"}>
-        {buyOrders.map((el: BuyOrderType, i: number) => {
-          return <BuyOrder buyOrder={el} key={`${el.sellOrderId}`} />;
+        {buyOrders.map((el: BuyOrderType) => {
+          return <BuyOrder buyOrder={el} key={`${el.id}`} />;
         })}
       </div>
     </>

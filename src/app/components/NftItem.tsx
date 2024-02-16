@@ -18,7 +18,6 @@ export function NftItem({
   handleClick: HandleClick;
   buttonText: string;
 }): React.JSX.Element {
-  console.log(rawMetadata);
   if (!rawMetadata)
     return (
       <div className={"col-span-12 flex justify-center items-center h-screen"}>
@@ -41,7 +40,9 @@ export function NftItem({
             <Button
               id={`${tokenAddress} ${tokenId}`}
               className="w-5/12 bg-blue-500 enabled:hover:bg-blue-600"
-              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              onClick={(
+                e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+              ): void => {
                 handleClick(e, price);
               }}
             >
@@ -56,7 +57,7 @@ export function NftItem({
               className={"w-5/12 text-black focus:border-0 focus:ring-0"}
               type={"number"}
               color={"dark"}
-              onChange={(e): void => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 setPrice(parseEther(e.target.value, "wei"));
               }}
             />

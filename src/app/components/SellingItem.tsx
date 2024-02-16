@@ -8,17 +8,15 @@ import { useContractWrite } from "wagmi";
 import { nftMarketplaceAddress } from "../../../helper";
 import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
 import React from "react";
+import { Address } from "viem";
 
 export function SellingItem({ sellItem }: { sellItem: SellItem }) {
-  console.log(sellItem.uri);
   const { isPending, error, data } = useQuery({
     queryKey: [`getNftMetadata`, sellItem.uri],
     queryFn: () => {
       return NftsService.getNftMetadata(sellItem.uri);
     },
   });
-  console.log(data);
-  console.log(error);
 
   const {
     data: dataCreatingBuyOrder,
@@ -37,7 +35,7 @@ export function SellingItem({ sellItem }: { sellItem: SellItem }) {
   ): void {
     const params: string[] = (e.target as HTMLButtonElement).id.split(" ");
     write({
-      args: [BigInt(sellItem.id), price],
+      args: [BigInt(params[1]), price],
     });
   }
   return (

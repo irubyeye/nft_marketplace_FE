@@ -25,6 +25,7 @@ export function NftsList({
       args: [params[0] as Address, BigInt(params[1]), price],
     });
   }
+
   return (
     <div className={"mt-5 grid grid-cols-12 gap-4 place-items-center"}>
       {nftsList.map((el: NftData) => {

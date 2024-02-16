@@ -62,24 +62,24 @@ export default class NftsService {
       method: "POST",
       body: JSON.stringify({
         query: `{
-  buyOrders(
-    where: {isClosed: false, isRejected: false, sellItem_: {seller: "${userAddress}", isForSale: true}}
-  ) {
-    id
-    sellOrderId
-    proposedPrice
-    buyer
-    sellItem {
-      id
-      initPrice
-      isForSale
-      seller
-      tokenAddress
-      tokenId
-      uri
-    }
-  }
-}`,
+          buyOrders(
+            where: {isClosed: false, isRejected: false, sellItem_: {seller: "${userAddress}", isForSale: true}}
+          ) {
+            id
+            sellOrderId
+            proposedPrice
+            buyer
+            sellItem {
+              id
+              initPrice
+              isForSale
+              seller
+              tokenAddress
+              tokenId
+              uri
+            }
+          }
+        }`,
       }),
       headers: {
         "Content-Type": "application/json",

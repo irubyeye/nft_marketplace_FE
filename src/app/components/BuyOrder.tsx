@@ -1,12 +1,12 @@
 import { BuyOrder, Metadata } from "@/app/interfaces/interfaces";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
-import { Address, formatUnits } from "viem";
+import { formatUnits } from "viem";
 import { formatAddress } from "@/app/utils/helperFunctions";
 import { Button, Label, Radio } from "flowbite-react";
 import React, { useState } from "react";
 import { useContractRead, useContractWrite } from "wagmi";
-import { nftAddress, nftMarketplaceAddress } from "../../../helper";
+import { nftMarketplaceAddress } from "../../../helper";
 import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
 import { NftContract } from "@/abi/NfrContract.abi";
 import ApprovalModal from "@/app/components/UI/ApprovalModal";
@@ -48,7 +48,7 @@ export default function BuyOrder({
     isSuccess: isSuccessApprove,
     write: writeApprove,
   } = useContractWrite({
-    address: nftAddress,
+    address: buyOrder.sellItem.tokenAddress,
     abi: NftContract,
     args: [nftMarketplaceAddress, BigInt(buyOrder.sellItem.tokenId)],
     functionName: "approve",

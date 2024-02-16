@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import { Web3Modal } from "../context/Web3Modal";
+import { Web3Modal } from "@/context/Web3Modal";
 import { ReactNode } from "react";
 import { ReactQueryClientProvider } from "@/app/components/reactqueryclientprovider/ReactQueryClientProvider";
 

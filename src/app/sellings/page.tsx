@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Header } from "@/app/components/UI/Header";
-import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
 import { SellingsList } from "@/app/components/SellingsList";

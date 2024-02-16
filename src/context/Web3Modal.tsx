@@ -6,7 +6,6 @@ import { Chain, WagmiConfig } from "wagmi";
 import { localhost, mainnet, sepolia } from "viem/chains";
 import { ReactNode } from "react";
 
-// 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "71bd61a65415874b5df19248b559c73b";
 
 const fork: Chain = {
@@ -14,7 +13,6 @@ const fork: Chain = {
   id: 31337,
 };
 
-// 2. Create wagmiConfig
 const metadata = {
   name: "Web3Modal",
   description: "Web3Modal Example",
@@ -25,7 +23,6 @@ const metadata = {
 const chains = [mainnet, sepolia, fork];
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
-// 3. Create modal
 createWeb3Modal({
   wagmiConfig,
   projectId,

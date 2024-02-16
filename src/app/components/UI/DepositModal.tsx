@@ -8,9 +8,8 @@ import { Address, formatUnits, parseEther } from "viem";
 
 export function DepositModal(): React.JSX.Element {
   const [openModal, setOpenModal] = useState(false);
-  const account = useAccount();
-
   const [value, setValue] = useState<bigint>(BigInt(0));
+  const account = useAccount();
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
     address: nftMarketplaceAddress,

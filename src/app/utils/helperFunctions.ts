@@ -12,9 +12,7 @@ export function formatAddress(addressToFormat: Address): string {
 }
 
 export function replaceIpfsDomain(url: string): string {
-  if (url.includes("https://ipfs.io/ipfs/")) {
-    return url.replace("https://ipfs.io/ipfs/", "https://4everland.io/ipfs/");
-  } else {
-    return url;
-  }
+  return url.includes("https://ipfs.io/ipfs/")
+    ? url.replace("https://ipfs.io/ipfs/", "https://4everland.io/ipfs/")
+    : url;
 }
