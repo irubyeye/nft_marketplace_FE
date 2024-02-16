@@ -1,13 +1,16 @@
 import { BuyOrder, Metadata } from "@/app/interfaces/interfaces";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
-import { formatUnits } from "viem";
+import { Address, formatUnits } from "viem";
 import { formatAddress } from "@/app/utils/helperFunctions";
 import { Button, Label, Radio } from "flowbite-react";
 import React, { useState } from "react";
-import { useContractWrite } from "wagmi";
-import { nftMarketplaceAddress } from "../../../helper";
+import { useContractRead, useContractWrite } from "wagmi";
+import { nftAddress, nftMarketplaceAddress } from "../../../helper";
 import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
+import { NftContract } from "@/abi/NfrContract.abi";
+import ApprovalModal from "@/app/components/UI/ApprovalModal";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export default function BuyOrder({
   buyOrder,
@@ -19,7 +22,8 @@ export default function BuyOrder({
   const [action, setAction] = useState<"acceptBuyOrder" | "rejectBuyOrder">(
     "rejectBuyOrder",
   );
-  console.log(buyOrder);
+  const [openModal, setOpenModal] = useState(false);
+
   const { isPending, error, data } = useQuery({
     queryKey: [`getNftMetadata`, buyOrder.sellItem.uri],
     queryFn: () => {
@@ -29,13 +33,37 @@ export default function BuyOrder({
 
   const {
     data: dataAction,
-    isLoading,
-    isSuccess,
-    write,
+    isLoading: isLoadingDataAction,
+    isSuccess: isSuccessDataAction,
+    write: writeDataAction,
   } = useContractWrite({
     address: nftMarketplaceAddress,
     abi: MarketplaceAbi,
     functionName: action,
+  });
+
+  const {
+    data: approveData,
+    isLoading: isApproveLoading,
+    isSuccess: isSuccessApprove,
+    write: writeApprove,
+  } = useContractWrite({
+    address: nftAddress,
+    abi: NftContract,
+    args: [nftMarketplaceAddress, BigInt(buyOrder.sellItem.tokenId)],
+    functionName: "approve",
+  });
+
+  const {
+    data: approvedAddress,
+    isError: isApprovedAddressError,
+    isLoading: isApprovedAddressLoading,
+  } = useContractRead({
+    address: buyOrder.sellItem.tokenAddress,
+    abi: NftContract,
+    functionName: "getApproved",
+    args: [BigInt(buyOrder.sellItem.tokenId)],
+    enabled: buyOrder.sellItem.tokenAddress !== undefined,
   });
 
   const metadata: Metadata | undefined =
@@ -44,13 +72,25 @@ export default function BuyOrder({
   function handleSendAction(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ): void {
-    write({
-      args: [BigInt((e.target as HTMLButtonElement).id)],
-    });
+    if (
+      approvedAddress !== nftMarketplaceAddress &&
+      action === "acceptBuyOrder"
+    ) {
+      setOpenModal(true);
+    } else {
+      writeDataAction({
+        args: [BigInt((e.target as HTMLButtonElement).id)],
+      });
+    }
   }
 
   return (
     <div className={"col-span-8 col-start-3 text-white flex"}>
+      <ApprovalModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        writeApprove={writeApprove}
+      />
       {metadata && (
         <div className={"bg-blue-800 flex pr-5"}>
           <div className={"w-64 h-64 flex-shrink-0"}>
@@ -116,12 +156,15 @@ export default function BuyOrder({
 
               <Button
                 id={`${buyOrder.id}`}
+                isProcessing={isApproveLoading}
+                disabled={isApproveLoading}
+                processingSpinner={
+                  <AiOutlineLoading className="h-6 w-6 animate-spin" />
+                }
                 className={"w-1/3 bg-blue-500 enabled:hover:bg-blue-600"}
                 onClick={(
                   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
                 ): void => {
-                  //console.log(action);
-                  //console.log(buyOrder.id);
                   handleSendAction(e);
                 }}
               >
