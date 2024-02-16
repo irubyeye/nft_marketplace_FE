@@ -55,9 +55,23 @@ export interface SellItem {
   initPrice: string;
   isForSalle: boolean;
   seller: Address;
-  token_address: Address;
+  tokenAddress: Address;
   uri: string;
-  token_id: string;
+  tokenId: string;
+}
+
+export interface BuyOrderResponse {
+  data: {
+    buyOrders: BuyOrder[];
+  };
+}
+
+export interface BuyOrder {
+  id: string;
+  sellOrderId: string;
+  proposedPrice: string;
+  buyer: Address;
+  sellItem: SellItem;
 }
 
 export interface HandleClick {

@@ -1,7 +1,6 @@
 import React from "react";
-import { NftData, SellItem } from "@/app/interfaces/interfaces";
+import { SellItem } from "@/app/interfaces/interfaces";
 import { SellingItem } from "@/app/components/SellingItem";
-import { NftItem } from "@/app/components/NftItem";
 
 export function SellingsList({
   data,
@@ -16,7 +15,7 @@ export function SellingsList({
           return (
             <SellingItem
               sellItem={el}
-              key={`${el.token_address + el.token_id}`}
+              key={`${el.tokenAddress + el.tokenId}`}
             />
           );
         })}

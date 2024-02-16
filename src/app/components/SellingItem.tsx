@@ -1,3 +1,5 @@
+"use client";
+
 import { NftData, SellItem } from "@/app/interfaces/interfaces";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
@@ -8,14 +10,15 @@ import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
 import React from "react";
 
 export function SellingItem({ sellItem }: { sellItem: SellItem }) {
+  console.log(sellItem.uri);
   const { isPending, error, data } = useQuery({
-    queryKey: [`getNftMetadata`],
+    queryKey: [`getNftMetadata`, sellItem.uri],
     queryFn: () => {
       return NftsService.getNftMetadata(sellItem.uri);
     },
   });
-
   console.log(data);
+  console.log(error);
 
   const {
     data: dataCreatingBuyOrder,
@@ -39,13 +42,15 @@ export function SellingItem({ sellItem }: { sellItem: SellItem }) {
   }
   return (
     <>
-      <NftItem
-        tokenId={sellItem.token_id}
-        tokenAddress={sellItem.token_address}
-        rawMetadada={data || ""}
-        buttonText={"Buy"}
-        handleClick={handleClick}
-      />
+      {!isPending && !error && (
+        <NftItem
+          tokenId={sellItem.tokenId}
+          tokenAddress={sellItem.tokenAddress}
+          rawMetadata={data as string}
+          buttonText={"Buy"}
+          handleClick={handleClick}
+        />
+      )}
     </>
   );
 }

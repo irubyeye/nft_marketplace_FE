@@ -6,7 +6,7 @@ import { nftMarketplaceAddress } from "../../../../helper";
 import { MarketplaceAbi } from "@/abi/MarketplaceAbi";
 import { Address, formatUnits, parseEther } from "viem";
 
-export function MyModal(): React.JSX.Element {
+export function DepositModal(): React.JSX.Element {
   const [openModal, setOpenModal] = useState(false);
   const account = useAccount();
 

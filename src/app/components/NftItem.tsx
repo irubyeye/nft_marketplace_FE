@@ -1,40 +1,34 @@
-import {
-  HandleClick,
-  NftData,
-  SellItem,
-  Metadata,
-} from "@/app/interfaces/interfaces";
+"use client";
+
+import { HandleClick, Metadata } from "@/app/interfaces/interfaces";
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 import { parseEther } from "viem";
 import { TextInput, Button, Spinner } from "flowbite-react";
-import { useQuery } from "@tanstack/react-query";
-import NftsService from "@/app/API/nftsService";
 
 export function NftItem({
   tokenAddress,
   tokenId,
-  rawMetadada,
+  rawMetadata,
   handleClick,
   buttonText,
 }: {
   tokenAddress: string;
   tokenId: string;
-  rawMetadada: string;
+  rawMetadata: string;
   handleClick: HandleClick;
   buttonText: string;
 }): React.JSX.Element {
-  if (!rawMetadada)
+  console.log(rawMetadata);
+  if (!rawMetadata)
     return (
-      <div className={"col-span-12 mt-10"}>
+      <div className={"col-span-12 flex justify-center items-center h-screen"}>
         <Spinner className={"w-32 h-32"} />
       </div>
     );
 
   const [price, setPrice] = useState<bigint>(BigInt(0));
 
-  const metadata: Metadata = JSON.parse(rawMetadada);
-  console.log(rawMetadada);
+  const metadata: Metadata = JSON.parse(rawMetadata);
   return (
     <div className={"col-span-4"}>
       <div className={"bg-blue-800 w-72"}>
@@ -51,7 +45,12 @@ export function NftItem({
                 handleClick(e, price);
               }}
             >
-              <div className={"text-gray-300"}>{buttonText}</div>
+              <div
+                id={`${tokenAddress} ${tokenId}`}
+                className={"text-gray-300"}
+              >
+                {buttonText}
+              </div>
             </Button>
             <TextInput
               className={"w-5/12 text-black focus:border-0 focus:ring-0"}

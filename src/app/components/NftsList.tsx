@@ -16,7 +16,6 @@ export function NftsList({
     abi: MarketplaceAbi,
     functionName: "createSellItem",
   });
-
   function handleClick(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     price: bigint,
@@ -33,7 +32,7 @@ export function NftsList({
           <NftItem
             tokenAddress={el.token_address}
             tokenId={el.token_id}
-            rawMetadada={el.metadata}
+            rawMetadata={el.metadata}
             key={el.token_hash}
             buttonText={"Sell"}
             handleClick={handleClick}

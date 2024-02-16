@@ -3,7 +3,7 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { Header } from "@/app/components/UI/Header";
 import { useRouter } from "next/navigation";
-import { MyModal } from "@/app/components/UI/MyModal";
+import { DepositModal } from "@/app/components/UI/DepositModal";
 
 function App() {
   const account = useAccount();

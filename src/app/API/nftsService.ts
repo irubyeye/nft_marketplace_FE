@@ -1,10 +1,11 @@
 import { graphUrl, nftKey } from "../../../helper";
 import {
+  BuyOrderResponse,
   NftApiResponse,
-  NftData,
   SellItemsResponse,
 } from "@/app/interfaces/interfaces";
 import { Address } from "viem";
+import { replaceIpfsDomain } from "@/app/utils/helperFunctions";
 
 export default class NftsService {
   static async getUserNfts(userAddress: Address): Promise<NftApiResponse> {
@@ -19,9 +20,13 @@ export default class NftsService {
   }
 
   static async getNftMetadata(url: string): Promise<string> {
-    const response: Response = await fetch(url, {
+    const preparedUrl: string = replaceIpfsDomain(url);
+
+    const response: Response = await fetch(preparedUrl, {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+      },
     });
 
     return JSON.stringify(await response.json());
@@ -43,6 +48,38 @@ export default class NftsService {
           "    tokenAddress\n" +
           "  }\n" +
           "}",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 10 },
+    });
+    return response.json();
+  }
+
+  static async getBuyOrders(userAddress: Address): Promise<BuyOrderResponse> {
+    const response: Response = await fetch(graphUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        query: `{
+  buyOrders(
+    where: {isClosed: false, isRejected: false, sellItem_: {seller: "${userAddress}"}}
+  ) {
+    id
+    sellOrderId
+    proposedPrice
+    buyer
+    sellItem {
+      id
+      initPrice
+      isForSale
+      seller
+      tokenAddress
+      tokenId
+      uri
+    }
+  }
+}`,
       }),
       headers: {
         "Content-Type": "application/json",

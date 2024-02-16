@@ -2,26 +2,26 @@
 
 import React from "react";
 import { Header } from "@/app/components/UI/Header";
-import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import NftsService from "@/app/API/nftsService";
-import { NftsList } from "@/app/components/NftsList";
-import { Address } from "viem";
 import { Spinner } from "flowbite-react";
+import { useAccount } from "wagmi";
+import { Address } from "viem";
+import { BuyOrdersList } from "@/app/components/BuyOrdersList";
 
 export default function Page(): React.JSX.Element {
   const account = useAccount();
 
   const { isPending, error, data } = useQuery({
-    queryKey: [`getUserNfts`, account.address],
+    queryKey: [`getBuyOrders`, account.address],
     queryFn: () => {
-      return NftsService.getUserNfts(account.address as Address);
+      return NftsService.getBuyOrders(account.address as Address);
     },
     enabled: account.address !== undefined,
   });
 
   return (
-    <div className="">
+    <div>
       <Header />
       {isPending && (
         <div className={"flex justify-center items-center h-screen"}>
@@ -31,7 +31,7 @@ export default function Page(): React.JSX.Element {
         </div>
       )}
       {error && "An error has occurred: " + error.message}
-      <NftsList nftsList={data?.result || []} />
+      <BuyOrdersList buyOrders={data?.data.buyOrders || []} />
     </div>
   );
 }
